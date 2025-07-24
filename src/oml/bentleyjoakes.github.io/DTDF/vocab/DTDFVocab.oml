@@ -22,6 +22,20 @@ vocabulary <https://bentleyjoakes.github.io/DTDF/vocab/DTDFVocab#> as DTDFVocab 
 		forward hasImplementation
 	]
 	
+	// Set to true if the component can display a visualization
+	scalar property HasVisualization [
+		domain Component
+		range xsd:boolean
+		functional
+	]
+	
+	// Set to true if the component is not yet implemented but planned
+	scalar property IsPlanned [
+		domain Component
+		range xsd:boolean
+		functional
+	]
+	
 	aspect PurposeThing
 	scalar property purpose [
 		domain PurposeThing
@@ -42,20 +56,6 @@ vocabulary <https://bentleyjoakes.github.io/DTDF/vocab/DTDFVocab#> as DTDFVocab 
 	
 	concept DTComponent < Component, FidelityThing [
 		restricts all base:isContainedIn to DigitalTwin
-	]
-	
-	// Set to true if the component can display a visualization
-	scalar property HasVisualization [
-		domain DTComponent
-		range xsd:boolean
-		functional
-	]
-	
-	// Set to true if the component is not yet implemented but planned
-	scalar property IsPlanned [
-		domain DTComponent
-		range xsd:boolean
-		functional
 	]
 	
 	//------------------------------
