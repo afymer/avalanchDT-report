@@ -28,12 +28,14 @@ vocabulary <https://bentleyjoakes.github.io/DTDF/vocab/DTDFVocab#> as DTDFVocab 
 		range xsd:boolean
 		functional
 	]
-	
-	// Set to true if the component is not yet implemented but planned
-	scalar property IsPlanned [
-		domain Component
-		range xsd:boolean
-		functional
+
+	// Implementation state
+	concept Implementation < Component
+	aspect ImplementationThing
+	relation entity HasImplementation [
+		from ImplementationThing
+		to Implementation
+		forward hasImplementation
 	]
 	
 	aspect PurposeThing
