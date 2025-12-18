@@ -9,7 +9,6 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	instance IncubatorDT : DTDFVocab:DigitalTwin [
 		DTDFVocab:purpose "enhance the functionality of the PT through the DT services"
 		DTDFVocab:multiplicity 1
-		DTDFVocab:evolution identifying_physics
 	]
 	
 	// SERVICES (C6)
@@ -192,55 +191,10 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	]
 	
 	// C13: EvolutionStage
-	instance identifying_physics : DTDFVocab:EvolutionStage [
-		base:desc "identifying the physics for the PT"
-		DTDFVocab:nextStage building_plant_models
+	instance evolution_stage : DTDFVocab:EvolutionStage [
+		base:desc "The DT was engineered based on a joint engineering approach. For the evolution, 10 milestones have been defined: identifying the physics for the PT, building the plant models with, characterizing the heating power, building the first physical prototype, experimentally refining the parameters for the plant model, creating the controller model, deploying the controller code into the physical controller, deploying the visualization service, providing services for state estimation and anomaly detection, and providing the service for optimizing the control policy."
 	]
-	
-	instance building_plant_models : DTDFVocab:EvolutionStage [
-		base:desc "building the plant models"
-		DTDFVocab:nextStage characterizing_heating_power
-	]
-	
-	instance characterizing_heating_power : DTDFVocab:EvolutionStage [
-		base:desc "characterizing the heating power"
-		DTDFVocab:nextStage building_physical_prototype
-	]
-	
-	instance building_physical_prototype : DTDFVocab:EvolutionStage [
-		base:desc "building the first physical prototype"
-		DTDFVocab:nextStage refining_parameters
-	]
-	
-	instance refining_parameters : DTDFVocab:EvolutionStage [
-		base:desc "experimentally refining the parameters for the plant model"
-		DTDFVocab:nextStage creating_controller_model
-	]
-	
-	instance creating_controller_model : DTDFVocab:EvolutionStage [
-		base:desc "creating the controller model"
-		DTDFVocab:nextStage deploying_controller
-	]
-	
-	instance deploying_controller : DTDFVocab:EvolutionStage [
-		base:desc "deploying the controller code into the physical controller"
-		DTDFVocab:nextStage deploying_visualization
-	]
-	
-	instance deploying_visualization : DTDFVocab:EvolutionStage [
-		base:desc " deploying the visualization service"
-		DTDFVocab:nextStage providing_services_1
-	]
-	
-	instance providing_services_1 : DTDFVocab:EvolutionStage [
-		base:desc "providing services for state estimation and anomaly detection"
-		DTDFVocab:nextStage providing_services_2
-	]
-	
-	instance providing_services_2 : DTDFVocab:EvolutionStage [
-		base:desc "providing the service for optimizing the control policy"
-	]
-	
+
 	// C14: FidelityConsideration
 	instance fidelity_consideration : DTDFVocab:FidelityConsideration [
 		base:desc "The models have been calibrated against experimental data and the predictive accuracy of the best model is within 2°C. The models have been validated in a controlled environment."
