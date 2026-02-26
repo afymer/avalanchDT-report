@@ -22,22 +22,6 @@ vocabulary <https://bentleyjoakes.github.io/DTDF/vocab/DTDFVocab#> as DTDFVocab 
 		forward hasImplementation
 	]
 	
-	// Set to true if the component can display a visualization
-	scalar property HasVisualization [
-		domain Component
-		range xsd:boolean
-		functional
-	]
-
-	// Implementation state
-	concept Implementation < Component
-	aspect ImplementationThing
-	relation entity HasImplementation [
-		from ImplementationThing
-		to Implementation
-		forward hasImplementation
-	]
-	
 	aspect PurposeThing
 	scalar property purpose [
 		domain PurposeThing
