@@ -12,7 +12,7 @@
         <tr>
             <td class="characteristic-id">C<sub>2</sub></td>
             <td>Physical acting components</td>
-            <td>fan: Circulates air throughout box<br>heater: Raises the temperature of surrounding air<br>controller: Controls the fan and heater<br>power_supply: Powers electrical components</td>
+            <td>controller: Controls the fan and heater<br>fan: Circulates air throughout box<br>heater: Raises the temperature of surrounding air<br>power_supply: Powers electrical components</td>
         </tr>
         <tr>
             <td class="characteristic-id">C<sub>3</sub></td>
@@ -22,7 +22,7 @@
         <tr>
             <td class="characteristic-id">C<sub>4</sub></td>
             <td>Physical-to-virtual interaction</td>
-            <td>temp_readings_trans<br>controller_state_trans</td>
+            <td>controller_state_trans<br>temp_readings_trans</td>
         </tr>
         <tr>
             <td class="characteristic-id">C<sub>5</sub></td>
@@ -37,7 +37,7 @@
         <tr>
             <td class="characteristic-id">C<sub>7</sub></td>
             <td>Twinning time-scale</td>
-            <td>Slower than real-time<br>Real-time<br>The DT-to-PT synchronization occurs every time the PT sends a message to the DT (on a periodic basis).<br>Faster than real-time</td>
+            <td>Real-time<br>Slower than real-time<br>The DT-to-PT synchronization occurs every time the PT sends a message to the DT (on a periodic basis).<br>Faster than real-time</td>
         </tr>
         <tr>
             <td class="characteristic-id">C<sub>8</sub></td>
@@ -67,7 +67,7 @@
         <tr>
             <td class="characteristic-id">C<sub>13</sub></td>
             <td>Twinning process and DT evolution</td>
-            <td>The PT-to-DT connection is done over Wi-Fi on a laptop using RabbitMQ.</td>
+            <td>The DT was engineered based on a joint engineering approach. For the evolution, 10 milestones have been defined: identifying the physics for the PT, building the plant models with, characterizing the heating power, building the first physical prototype, experimentally refining the parameters for the plant model, creating the controller model, deploying the controller code into the physical controller, deploying the visualization service, providing services for state estimation and anomaly detection, and providing the service for optimizing the control policy.</td>
         </tr>
         <tr>
             <td class="characteristic-id">C<sub>14</sub></td>
