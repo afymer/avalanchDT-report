@@ -13,8 +13,8 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	
 	// SERVICES (C6)
 	
-	instance heater_state_estimation_service : DTDFVocab:Service[
-		DTDFVocab:provides heater_state_estimation
+	instance avalanche_prediction_service : DTDFVocab:Service[
+		DTDFVocab:provides future_avalanche_risk_estimation
 		DTDFVocab:atStage baseDesc:operation
 	]
 	instance real_time_viz_service : DTDFVocab:Service[
@@ -22,11 +22,11 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 		DTDFVocab:atStage baseDesc:operation
 		DTDFVocab:HasVisualization true
 	]
-	instance anomaly_detector : DTDFVocab:Service [
-		DTDFVocab:provides anomaly_warning
+	instance avalanche_danger_level_estimator : DTDFVocab:Service [
+		DTDFVocab:provides avalanche_3d_simulation
 		DTDFVocab:atStage baseDesc:operation
 	]
-	instance what_if_sim : DTDFVocab:Service [
+	instance avalanche_simulation : DTDFVocab:Service [
 		DTDFVocab:provides what_if_sim_results
 		DTDFVocab:atStage baseDesc:operation
 	]
@@ -42,14 +42,14 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	// ENABLERS (C11)
 	
 	instance simulator : DTDFVocab:Enabler [
-		DTDFVocab:enables what_if_sim
+		DTDFVocab:enables avalanche_simulation
 	]
 	instance anomaly_detector_enabler : DTDFVocab:Enabler [
-		DTDFVocab:enables anomaly_detector
+		DTDFVocab:enables avalanche_danger_level_estimator
 	]
 	instance state_estimator : DTDFVocab:Enabler [
-		DTDFVocab:enables heater_state_estimation_service
-		DTDFVocab:enables anomaly_detector
+		DTDFVocab:enables avalanche_prediction_service
+		DTDFVocab:enables avalanche_danger_level_estimator
 		DTDFVocab:enables safe_adaptation
 	]
 	instance optimization_algs : DTDFVocab:Enabler [
@@ -115,14 +115,14 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	 [
 		DTDFVocab:inputTo dashboard_enabler
 		DTDFVocab:inputTo optimization_algs
-		DTDFVocab:fromData pt:temp_readings_trans
+		DTDFVocab:fromData pt:imis_report
 	]
 	instance temp_readings_historical : DTDFVocab:Data
 	 [
 		DTDFVocab:inputTo simulator
 	]
 	instance controller_state : DTDFVocab:Data [
-		DTDFVocab:fromData pt:controller_state_trans
+		DTDFVocab:fromData pt:imis_report
 	]
 
 	// COMMUNICATION
@@ -138,15 +138,15 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	
 	// INSIGHTS/ACTIONS (C17)
 	
-	instance heater_state_estimation : DTDFVocab:Insight[
+	instance future_avalanche_risk_estimation : DTDFVocab:Insight[
 		DTDFVocab:hasTimeScale baseDesc:rt
 		base:desc "state estimation of the heater"
 	]
-	instance dashboard : DTDFVocab:Insight[
+	instance avalanche_risk_map : DTDFVocab:Insight[
 		DTDFVocab:hasTimeScale baseDesc:rt
-		base:desc "dashboard visualization of the current state and historical data"
+		base:desc "avalanche_risk_map visualization of the current state and historical data"
 	]
-	instance anomaly_warning : DTDFVocab:Insight[
+	instance avalanche_3d_simulation : DTDFVocab:Insight[
 		DTDFVocab:hasTimeScale baseDesc:slower_trt
 		base:desc "anomaly detection"
 	]
@@ -166,8 +166,8 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	// DT CHARACTERISTICS
 	
 	// C5: Virtual to Physical Interaction
-	instance virtual_to_physical : DTDFVocab:VirtualToPhysical [
-		base:desc "The controller in the PT sends sensor and actuator data on a periodic basis over RabbitMQ."
+	instance notification : DTDFVocab:VirtualToPhysical [
+		base:desc "The DT sends notifications to users."
 	]
 	
 	// C7: TimeScale

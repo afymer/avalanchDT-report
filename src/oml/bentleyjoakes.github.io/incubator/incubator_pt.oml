@@ -8,45 +8,52 @@ description <https://bentleyjoakes.github.io/incubator/incubator_pt#> as incubat
 	// C1: System under study
 	instance pt : DTDFVocab:SystemUnderStudy [
 		DTDFVocab:hasSystem incubator
-		DTDFVocab:hasAgent user
-		DTDFVocab:hasEnvironment room
+		DTDFVocab:hasAgent user // We ignored this for now as it is not represented in DTInsight
+		DTDFVocab:hasEnvironment mountain
 		base:desc "A Styrofoam box containing a lid, a heating element, and fan, controlled by a Raspberry Pi, for incubating tempeh."
 	]
 	
 	instance incubator : DTDFVocab:System[
 		DTDFVocab:purpose "maintain a specific temperature within the incubator’s chamber"
 		DTDFVocab:multiplicity 1
-		base:contains controller, power_supply, fan, heater
+		base:contains notification_sender, avalanche_trigger_controller
 	]
 	
 	// C2: Acting Components
-	instance controller : DTDFVocab:ActingComponent[
-		base:desc "Controls the fan and heater"
+	instance notification_sender : DTDFVocab:ActingComponent[
+		base:desc "Controls sending of notifications to users"
 	]
-	instance power_supply : DTDFVocab:ActingComponent[
-		base:desc "Powers electrical components"
-	]
-	instance fan : DTDFVocab:ActingComponent[
-		base:desc "Circulates air throughout box"
-	]
-	instance heater : DTDFVocab:ActingComponent[
-		base:desc "Raises the temperature of surrounding air"
+	instance avalanche_trigger_controller : DTDFVocab:ActingComponent[
+		base:desc "Controls the avalanche triggers grid"
 	]
 	
 	// Two inside box, one outside
 	// C3: Physical sensing components
-	instance temp_sensor_1 : DTDFVocab:SensingComponent
-	instance temp_sensor_2 : DTDFVocab:SensingComponent
-	instance temp_sensor_3 : DTDFVocab:SensingComponent
+	instance meteo_station : DTDFVocab:SensingComponent [
+		DTDFVocab:hasTimeScale baseDesc:rt
+	]
+	instance lidar : DTDFVocab:SensingComponent [
+		DTDFVocab:hasTimeScale baseDesc:immutable
+	]
+	instance imis : DTDFVocab:SensingComponent [
+		DTDFVocab:hasTimeScale baseDesc:rt
+	]
 	
 	// C4: Physical-to-virtual interaction
-	instance temp_readings_trans : DTDFVocab:DataTransmitted [
-		DTDFVocab:producedFrom temp_sensor_1, temp_sensor_2, temp_sensor_3
+	instance imis_report : DTDFVocab:DataTransmitted [
+		DTDFVocab:producedFrom imis
 		DTDFVocab:hasTimeScale baseDesc:rt
 		DTDFVocab:IsAutomatic true
 	]
 	
-	instance controller_state_trans : DTDFVocab:DataTransmitted [
+	instance swissalti3d_raster : DTDFVocab:DataTransmitted [
+		DTDFVocab:producedFrom lidar
+		DTDFVocab:hasTimeScale baseDesc:immutable
+		DTDFVocab:IsAutomatic false
+	]
+	
+	instance slf_report : DTDFVocab:DataTransmitted [
+		DTDFVocab:producedFrom meteo_station
 		DTDFVocab:hasTimeScale baseDesc:rt
 		DTDFVocab:IsAutomatic true
 	]
@@ -55,14 +62,23 @@ description <https://bentleyjoakes.github.io/incubator/incubator_pt#> as incubat
 		base:desc "Can manually operate the lid"
 	]
 	
-	instance room : DTDFVocab:Environment [
-		base:contains surface
-		base:contains surrounding_air
+	instance mountain : DTDFVocab:Environment [
+		base:contains meteo
+		base:contains topology
+		base:contains activity
+		base:contains infrastructures
 	]
-	instance surface : DTDFVocab:Component [
-		base:desc "Where the incubator is placed"
+	instance meteo : DTDFVocab:Component [
+		base:desc "Weather on site"
 	]
-	instance surrounding_air : DTDFVocab:Component [
-		base:desc "Heat sink"
+	instance topology : DTDFVocab:Component [
+		base:desc "Topology of the mountain, using SwissAlti3D"
+		DTDFVocab:hasTimeScale baseDesc:immutable
+	]
+	instance activity : DTDFVocab:Component [
+		base:desc "Skiers and other human-beings on site"
+	]
+	instance infrastructures : DTDFVocab:Component [
+		base:desc "Human-made structures"
 	]
 }

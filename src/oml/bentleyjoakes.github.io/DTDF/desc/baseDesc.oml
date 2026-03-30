@@ -24,6 +24,9 @@ description <https://bentleyjoakes.github.io/DTDF/desc/baseDesc#> as baseDesc {
 	instance faster_trt : DTDFVocab:TimeScale [
 		base:desc "Faster than real-time"
 	]
+	instance immutable : DTDFVocab:TimeScale [
+		base:desc "Immutable"
+	]
 	
 	// LIFE-CYCLE STAGES
 	instance operation : DTDFVocab:LifeCycleStage
