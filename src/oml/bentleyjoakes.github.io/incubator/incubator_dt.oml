@@ -45,10 +45,13 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	]
 	instance rabbit_mq : DTDFVocab:Enabler [
 		DTDFVocab:IsCommEnabler true
+		DTDFVocab:enables real_time_viz_service
+		DTDFVocab:enables avalanche_simulation
 	]
 	instance docker_volume_sharing : DTDFVocab:Enabler [
 		DTDFVocab:IsCommEnabler true
 		DTDFVocab:enables real_time_viz_service
+		DTDFVocab:enables avalanche_simulation
 	]
 	instance godot : DTDFVocab:Enabler [
 		DTDFVocab:enables real_time_viz_service
@@ -73,10 +76,18 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	instance pt_and_env_model : DTDFVocab:Model [
 		DTDFVocab:inputTo simulator
 	]
-	instance snow_profile_model : DTDFVocab:Data
+	instance snow_profile : DTDFVocab:Data
 	[
 		DTDFVocab:fromData pt:imis_report
+		DTDFVocab:fromData pt:slf_report
+		DTDFVocab:fromData pt:swissalti3d_raster
 		DTDFVocab:inputTo alpine3d
+		DTDFVocab:inputTo NNEstimator
+	]
+	instance terrain_topography : DTDFVocab:Data
+	[
+		DTDFVocab:fromData pt:swissalti3d_raster
+		DTDFVocab:inputTo simulator
 	]
 
 	// COMMUNICATION
