@@ -20,7 +20,7 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	instance real_time_viz_service : DTDFVocab:Service[
 		DTDFVocab:provides real_time_viz
 		DTDFVocab:atStage baseDesc:operation
-		DTDFVocab:HasVisualization true
+		DTDFVocab:HasVisualization false
 	]
 	instance avalanche_danger_level_estimator : DTDFVocab:Service [
 		DTDFVocab:provides avalanche_3d_simulation
@@ -30,41 +30,25 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 		DTDFVocab:provides what_if_sim_results
 		DTDFVocab:atStage baseDesc:operation
 	]
-	instance safe_adaptation : DTDFVocab:Service [
-		DTDFVocab:provides controller_control
-		DTDFVocab:atStage baseDesc:operation
-	]
-	instance policy_optimization : DTDFVocab:Service [
-		DTDFVocab:provides controller_control
-		DTDFVocab:atStage baseDesc:operation
-	]
 	
 	// ENABLERS (C11)
 	
 	instance simulator : DTDFVocab:Enabler [
 		DTDFVocab:enables avalanche_simulation
 	]
-	instance anomaly_detector_enabler : DTDFVocab:Enabler [
+	instance alpine3d : DTDFVocab:Enabler [
 		DTDFVocab:enables avalanche_danger_level_estimator
 	]
-	instance state_estimator : DTDFVocab:Enabler [
+	instance NNEstimator : DTDFVocab:Enabler [
 		DTDFVocab:enables avalanche_prediction_service
 		DTDFVocab:enables avalanche_danger_level_estimator
-		DTDFVocab:enables safe_adaptation
-	]
-	instance optimization_algs : DTDFVocab:Enabler [
-		DTDFVocab:enables safe_adaptation
-		DTDFVocab:enables safe_adaptation
-	]
-	instance dashboard_enabler : DTDFVocab:Enabler [
-		DTDFVocab:enables policy_optimization
 	]
 	instance rabbit_mq : DTDFVocab:Enabler [
 		DTDFVocab:IsCommEnabler true
 	]
-	instance influx_db : DTDFVocab:Enabler [
-	]
-	instance docker : DTDFVocab:Enabler [
+	instance docker_volume_sharing : DTDFVocab:Enabler [
+		DTDFVocab:IsCommEnabler true
+		DTDFVocab:enables real_time_viz_service
 	]
 	instance godot : DTDFVocab:Enabler [
 		DTDFVocab:enables real_time_viz_service
@@ -72,35 +56,13 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	
 	// MODELS / DATA
 	
-	instance two_para_model : DTDFVocab:Model [
-		DTDFVocab:inputTo dashboard_enabler
-		DTDFVocab:inputTo anomaly_detector_enabler
-		DTDFVocab:inputTo state_estimator
-		DTDFVocab:inputTo optimization_algs
+	instance alpine3d_interpolation_model : DTDFVocab:Model [
+		DTDFVocab:inputTo alpine3d
+		DTDFVocab:inputTo NNEstimator
 	]
-	instance four_para_model : DTDFVocab:Model [
-		DTDFVocab:inputTo dashboard_enabler
-		DTDFVocab:inputTo anomaly_detector_enabler
-		DTDFVocab:inputTo state_estimator
-		DTDFVocab:inputTo optimization_algs
-	]
-	instance ANN_model : DTDFVocab:Model [
-		DTDFVocab:inputTo dashboard_enabler
-		DTDFVocab:inputTo anomaly_detector_enabler
-		DTDFVocab:inputTo state_estimator
-		DTDFVocab:inputTo optimization_algs
-	]
-	instance ANN_state_estimation_model : DTDFVocab:Model [
-		DTDFVocab:inputTo dashboard_enabler
-		DTDFVocab:inputTo anomaly_detector_enabler
-		DTDFVocab:inputTo state_estimator
-		DTDFVocab:inputTo optimization_algs
-	]
-	instance controller_model : DTDFVocab:Model
-	 [
-		DTDFVocab:inputTo simulator
-		DTDFVocab:inputTo state_estimator
-		DTDFVocab:inputTo optimization_algs
+	instance NN_model : DTDFVocab:Model [
+		DTDFVocab:inputTo alpine3d
+		DTDFVocab:inputTo NNEstimator
 	]
 	instance pt_model : DTDFVocab:Model [
 		DTDFVocab:inputTo simulator
@@ -111,27 +73,19 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	instance pt_and_env_model : DTDFVocab:Model [
 		DTDFVocab:inputTo simulator
 	]
-	instance temp_readings_streaming : DTDFVocab:Data
-	 [
-		DTDFVocab:inputTo dashboard_enabler
-		DTDFVocab:inputTo optimization_algs
+	instance snow_profile_model : DTDFVocab:Data
+	[
 		DTDFVocab:fromData pt:imis_report
-	]
-	instance temp_readings_historical : DTDFVocab:Data
-	 [
-		DTDFVocab:inputTo simulator
-	]
-	instance controller_state : DTDFVocab:Data [
-		DTDFVocab:fromData pt:imis_report
+		DTDFVocab:inputTo alpine3d
 	]
 
 	// COMMUNICATION
 	
-	instance dashboard_viz : DTDFVocab:Insight [
+	instance godot_viz : DTDFVocab:Insight [
 		DTDFVocab:hasTimeScale baseDesc:slower_trt
 	]
 	
-	instance commands : DTDFVocab:Action [
+	instance notifications : DTDFVocab:Action [
 		DTDFVocab:IsAutomatic true
 		DTDFVocab:hasTimeScale baseDesc:rt
 	]
@@ -140,7 +94,7 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	
 	instance future_avalanche_risk_estimation : DTDFVocab:Insight[
 		DTDFVocab:hasTimeScale baseDesc:rt
-		base:desc "state estimation of the heater"
+		base:desc "estimation of the avalanche risk"
 	]
 	instance avalanche_risk_map : DTDFVocab:Insight[
 		DTDFVocab:hasTimeScale baseDesc:rt
@@ -148,86 +102,82 @@ description <https://bentleyjoakes.github.io/incubator/incubator_dt#> as incubat
 	]
 	instance avalanche_3d_simulation : DTDFVocab:Insight[
 		DTDFVocab:hasTimeScale baseDesc:slower_trt
-		base:desc "anomaly detection"
+		base:desc "simulation of the impacts of an avalanche in a specific area"
 	]
 	instance real_time_viz : DTDFVocab:Insight [
 		DTDFVocab:hasTimeScale baseDesc:rt
-		base:desc "3D visualization of the current state"
-	]
-	instance controller_control : DTDFVocab:Action [
-		DTDFVocab:hasTimeScale baseDesc:rt
-		base:desc "control policy updates to the PT"
+		base:desc "3D visualization of the Alps"
 	]
 	instance what_if_sim_results : DTDFVocab:Insight [
 		DTDFVocab:hasTimeScale baseDesc:faster_trt
-		base:desc " what-if analysis for future behavior under different controller configurations"
+		base:desc " what-if analysis of potential avalanches in risky zones"
 	]
 	
 	// DT CHARACTERISTICS
 	
 	// C5: Virtual to Physical Interaction
 	instance notification : DTDFVocab:VirtualToPhysical [
-		base:desc "The DT sends notifications to users."
+		base:desc "The DT sends notifications to emergencies services and users."
 	]
 	
 	// C7: TimeScale
 	instance twinning_time_scale : DTDFVocab:TimeScale [
-		base:desc "The DT-to-PT synchronization occurs every time the PT sends a message to the DT (on a periodic basis)."
+		base:desc "The DT-to-PT occurs at the timescale of days, as the PT sends weather and snow updates to the DT."
 	]
 	
 	// C8: Multiplicity
 	instance multiplcity : DTDFVocab:Multiplicity [
-		base:desc "The current implementation has no multiplicities, however, it is possible to deploy multiple DTs for the same PT."
+		base:desc "The current implementation has no multiplicities, however, it is possible to deploy for free multiple DTs for multiple mountains."
 	]
 	
 	// C9: LifeCycleStage
 	instance life_cycle_stage : DTDFVocab:LifeCycleStage [
-		base:desc "The DT supports the design and the service phases. In the service phase, it supports creating, executing, saving, analyzing, evolving, and terminating."
+		base:desc "The DT only supports the service phase. In the service phase, it supports executing and analyzing."
 	]
 	
 	// C12: Constellation
 	instance constellation : DTDFVocab:Constellation [
-		base:desc "The orchestration of the system-as-a-whole is carried out by micro-services. These microservices set up the multiple components from configuration files, including the models and data, tools and enablers, services, and physical-to-virtual and virtual-to-physical interaction. It is possible to leave aside some of the micro-services when initializing the DT for testing purposes.."
+		base:desc "The orchestration of the system-as-a-whole is carried out by (micro-)services. These services operate on their own depending on the availability of data. They include weather simulation, prediction, and enablers. Yet it is not possible to leave aside some of the micro-services."
 	]
 	
 	// C13: EvolutionStage
 	instance evolution_stage : DTDFVocab:EvolutionStage [
-		base:desc "The DT was engineered based on a joint engineering approach. For the evolution, 10 milestones have been defined: identifying the physics for the PT, building the plant models with, characterizing the heating power, building the first physical prototype, experimentally refining the parameters for the plant model, creating the controller model, deploying the controller code into the physical controller, deploying the visualization service, providing services for state estimation and anomaly detection, and providing the service for optimizing the control policy."
+		base:desc 'The DT was engineered based on flexible requirements, with an MVP consisting of avalanche danger prediction.'
 	]
 
 	// C14: FidelityConsideration
 	instance fidelity_consideration : DTDFVocab:FidelityConsideration [
-		base:desc "The models have been calibrated against experimental data and the predictive accuracy of the best model is within 2°C. The models have been validated in a controlled environment."
+		base:desc "The DT is yet to be validated against historical data for accuracy."
 	]
 	
 	// C15: TechnicalConnection
 	instance technical_connection : DTDFVocab:TechnicalConnection [
-		base:desc "The PT-to-DT connection is done over Wi-Fi on a laptop using RabbitMQ."
+		base:desc "The PT-to-DT connection is done over Ethernet using RESTful APIs"
 	]
 	
 	// C16: DT hosting/deployment
 	instance deployment : DTDFVocab:Deployment [
-		base:desc "The Incubator DT is deployed locally on a LAN."
+		base:desc "The Incubator DT is deployed on a virtual network, which can be deployed on a VPS."
 	]
 	
 	// C18: Horizontal Integration
 	instance horizontal_integration : DTDFVocab:HoriIntegration [
-		base:desc "There is horizontal integration with the micro-services of the Incubator DT. The DT is able to exchange information with other information systems over RabbitMQ."
+		base:desc "There is horizontal integration with the services of the Swiss Alps DT. The DT is able to exchange information with other information systems via volume sharing and message passing using RabbitMQ."
 	]
 	
 	// C19: Data ownership and privacy	
 	instance data_owneship_privacy : DTDFVocab:DataOwnershipPrivacy [
-		base:desc "Datasets have been provided online to the public. No privacy-related data are stored."
+		base:desc "Datasets are the exclusive property of SLF and other governmental oranisations. No privacy-related data is stored."
 	]
 	
 	// C20: Standardization
 	instance standardization : DTDFVocab:Standardization [
-		base:desc "Communication is carried out using AMQP standard via RabbitMQ. Behavioral models have been produced following the FMI standard version 2."
+		base:desc "Communication is carried out using AMQP standard via RabbitMQ."
 	]
 	
 	// C21: Security and safety considerations	
 	instance security_safety : DTDFVocab:SecuritySafety [
-		base:desc "Communication can be TLS encrypted through the RabbitMQ broker. The physical controller counts with a safety consideration that turns off system if the temperature read is above 60°C or if the network connection is unstable."
+		base:desc "Communication can be TLS encrypted through the RabbitMQ broker. All actions performed by the DT need human action for now."
 	]
 	
 }

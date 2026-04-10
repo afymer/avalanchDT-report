@@ -72,7 +72,7 @@ description <https://bentleyjoakes.github.io/incubator/incubator_pt#> as incubat
 		base:desc "Weather on site"
 	]
 	instance topology : DTDFVocab:Component [
-		base:desc "Topology of the mountain, using SwissAlti3D"
+		base:desc "Topology of the mountain, proxied using SwissAlti3D"
 		DTDFVocab:hasTimeScale baseDesc:immutable
 	]
 	instance activity : DTDFVocab:Component [
