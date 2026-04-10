@@ -1,242 +1,193 @@
 Services :
-	safe_adaptation
-		type : NamedIndividual/Component/Service/DTComponent/FidelityThing/ImplementationThing/TimeScaleThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		atStage : operation
-		enabledBy : state_estimator/optimization_algs
-		provides : controller_control
-		sameAs : safe_adaptation
 	real_time_viz_service
-		type : NamedIndividual/Component/Service/DTComponent/FidelityThing/ImplementationThing/TimeScaleThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		atStage : operation
-		enabledBy : godot
-		provides : real_time_viz
-		HasVisualization : true
+		type : Thing/DTComponent/Service/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
 		sameAs : real_time_viz_service
-	policy_optimization
-		type : NamedIndividual/Component/Service/DTComponent/FidelityThing/ImplementationThing/TimeScaleThing/DescribedThing/ContainedElement/Thing/ConceptInstance
+		HasVisualization : false
 		atStage : operation
-		enabledBy : dashboard_enabler
-		provides : controller_control
-		sameAs : policy_optimization
+		enabledBy : docker_volume_sharing/godot
+		provides : real_time_viz
 	avalanche_danger_level_estimator
-		type : NamedIndividual/Component/Service/DTComponent/FidelityThing/ImplementationThing/TimeScaleThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		atStage : operation
-		enabledBy : state_estimator/anomaly_detector_enabler
-		provides : avalanche_3d_simulation
+		type : Thing/DTComponent/Service/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
 		sameAs : avalanche_danger_level_estimator
+		atStage : operation
+		enabledBy : alpine3d/NNEstimator
+		provides : avalanche_3d_simulation
 	avalanche_simulation
-		type : NamedIndividual/Component/Service/DTComponent/FidelityThing/ImplementationThing/TimeScaleThing/DescribedThing/ContainedElement/Thing/ConceptInstance
+		type : Thing/DTComponent/Service/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
+		sameAs : avalanche_simulation
 		atStage : operation
 		enabledBy : simulator
 		provides : what_if_sim_results
-		sameAs : avalanche_simulation
 	avalanche_prediction_service
-		type : NamedIndividual/Component/Service/DTComponent/FidelityThing/ImplementationThing/TimeScaleThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		atStage : operation
-		enabledBy : state_estimator
-		provides : future_avalanche_risk_estimation
+		type : Thing/DTComponent/Service/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
 		sameAs : avalanche_prediction_service
+		atStage : operation
+		enabledBy : NNEstimator
+		provides : future_avalanche_risk_estimation
 Enablers :
 	simulator
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		enables : avalanche_simulation
-		hasInput : pt_model/controller_model/temp_readings_historical/env_model/pt_and_env_model
+		type : Thing/DTComponent/Enabler/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
 		sameAs : simulator
-	state_estimator
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		enables : safe_adaptation/avalanche_danger_level_estimator/avalanche_prediction_service
-		hasInput : ANN_state_estimation_model/ANN_model/four_para_model/two_para_model/controller_model
-		sameAs : state_estimator
-	anomaly_detector_enabler
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		enables : avalanche_danger_level_estimator
-		hasInput : ANN_state_estimation_model/ANN_model/four_para_model/two_para_model
-		sameAs : anomaly_detector_enabler
-	optimization_algs
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		enables : safe_adaptation
-		hasInput : ANN_state_estimation_model/temp_readings_streaming/ANN_model/four_para_model/two_para_model/controller_model
-		sameAs : optimization_algs
-	dashboard_enabler
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		enables : policy_optimization
-		hasInput : ANN_state_estimation_model/temp_readings_streaming/ANN_model/four_para_model/two_para_model
-		sameAs : dashboard_enabler
-	godot
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
+		enables : avalanche_simulation
+		hasInput : pt_model/env_model/pt_and_env_model
+	docker_volume_sharing
+		type : Thing/DTComponent/Enabler/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
+		sameAs : docker_volume_sharing
 		enables : real_time_viz_service
-		sameAs : godot
-	docker
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		sameAs : docker
-	influx_db
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		sameAs : influx_db
-	rabbit_mq
-		type : NamedIndividual/Component/DTComponent/Enabler/FidelityThing/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
 		IsCommEnabler : true
+	godot
+		type : Thing/DTComponent/Enabler/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
+		sameAs : godot
+		enables : real_time_viz_service
+	alpine3d
+		type : Thing/DTComponent/Enabler/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
+		sameAs : alpine3d
+		enables : avalanche_danger_level_estimator
+		hasInput : NN_model/alpine3d_interpolation_model/snow_profile_model
+	NNEstimator
+		type : Thing/DTComponent/Enabler/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
+		sameAs : NNEstimator
+		enables : avalanche_danger_level_estimator/avalanche_prediction_service
+		hasInput : NN_model/alpine3d_interpolation_model
+	rabbit_mq
+		type : Thing/DTComponent/Enabler/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
 		sameAs : rabbit_mq
+		IsCommEnabler : true
 Models :
 	pt_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
-		inputTo : simulator
+		type : Thing/DTComponent/Model/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/Input/NamedIndividual/ConceptInstance
 		sameAs : pt_model
-	ANN_state_estimation_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
-		inputTo : state_estimator/anomaly_detector_enabler/optimization_algs/dashboard_enabler
-		sameAs : ANN_state_estimation_model
-	ANN_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
-		inputTo : state_estimator/anomaly_detector_enabler/optimization_algs/dashboard_enabler
-		sameAs : ANN_model
-	four_para_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
-		inputTo : state_estimator/anomaly_detector_enabler/optimization_algs/dashboard_enabler
-		sameAs : four_para_model
-	two_para_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
-		inputTo : state_estimator/anomaly_detector_enabler/optimization_algs/dashboard_enabler
-		sameAs : two_para_model
-	controller_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
-		inputTo : simulator/state_estimator/optimization_algs
-		sameAs : controller_model
+		inputTo : simulator
+	NN_model
+		type : Thing/DTComponent/Model/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/Input/NamedIndividual/ConceptInstance
+		sameAs : NN_model
+		inputTo : alpine3d/NNEstimator
+	alpine3d_interpolation_model
+		type : Thing/DTComponent/Model/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/Input/NamedIndividual/ConceptInstance
+		sameAs : alpine3d_interpolation_model
+		inputTo : alpine3d/NNEstimator
 	env_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
-		inputTo : simulator
+		type : Thing/DTComponent/Model/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/Input/NamedIndividual/ConceptInstance
 		sameAs : env_model
-	pt_and_env_model
-		type : NamedIndividual/Component/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Model/Thing/ConceptInstance
 		inputTo : simulator
+	pt_and_env_model
+		type : Thing/DTComponent/Model/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/Input/NamedIndividual/ConceptInstance
 		sameAs : pt_and_env_model
+		inputTo : simulator
 ProvidedThings :
-	dashboard_viz
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/ConnectionComponent/DescribedThing/ContainedElement/Insight/Thing/ConceptInstance
-		hasTimeScale : slower_trt
-		sameAs : dashboard_viz
 	real_time_viz
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/ConnectionComponent/DescribedThing/ContainedElement/Insight/Thing/ConceptInstance
-		hasTimeScale : rt
-		desc : 3D visualization of the current state
-		providedBy : real_time_viz_service
+		type : ConnectionComponent/Thing/Insight/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/ProvidedThing/NamedIndividual/ConceptInstance
 		sameAs : real_time_viz
-	what_if_sim_results
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/ConnectionComponent/DescribedThing/ContainedElement/Insight/Thing/ConceptInstance
-		hasTimeScale : faster_trt
-		desc :  what-if analysis for future behavior under different controller configurations
-		providedBy : avalanche_simulation
-		sameAs : what_if_sim_results
-	avalanche_3d_simulation
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/ConnectionComponent/DescribedThing/ContainedElement/Insight/Thing/ConceptInstance
+		desc : 3D visualization of the Alps
+		hasTimeScale : rt
+		providedBy : real_time_viz_service
+	godot_viz
+		type : ConnectionComponent/Thing/Insight/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/ProvidedThing/NamedIndividual/ConceptInstance
+		sameAs : godot_viz
 		hasTimeScale : slower_trt
-		desc : anomaly detection
-		providedBy : avalanche_danger_level_estimator
+	what_if_sim_results
+		type : ConnectionComponent/Thing/Insight/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/ProvidedThing/NamedIndividual/ConceptInstance
+		sameAs : what_if_sim_results
+		desc :  what-if analysis of potential avalanches in risky zones
+		hasTimeScale : faster_trt
+		providedBy : avalanche_simulation
+	avalanche_3d_simulation
+		type : ConnectionComponent/Thing/Insight/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/ProvidedThing/NamedIndividual/ConceptInstance
 		sameAs : avalanche_3d_simulation
+		desc : simulation of the impacts of an avalanche in a specific area
+		hasTimeScale : slower_trt
+		providedBy : avalanche_danger_level_estimator
 	future_avalanche_risk_estimation
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/ConnectionComponent/DescribedThing/ContainedElement/Insight/Thing/ConceptInstance
-		hasTimeScale : rt
-		desc : state estimation of the heater
-		providedBy : avalanche_prediction_service
+		type : ConnectionComponent/Thing/Insight/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/ProvidedThing/NamedIndividual/ConceptInstance
 		sameAs : future_avalanche_risk_estimation
+		desc : estimation of the avalanche risk
+		hasTimeScale : rt
+		providedBy : avalanche_prediction_service
 	avalanche_risk_map
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/ConnectionComponent/DescribedThing/ContainedElement/Insight/Thing/ConceptInstance
-		hasTimeScale : rt
-		desc : avalanche_risk_map visualization of the current state and historical data
+		type : ConnectionComponent/Thing/Insight/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/ProvidedThing/NamedIndividual/ConceptInstance
 		sameAs : avalanche_risk_map
-	controller_control
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/AutomaticEnabledThing/ConnectionComponent/Action/DescribedThing/ContainedElement/Thing/ConceptInstance
+		desc : avalanche_risk_map visualization of the current state and historical data
 		hasTimeScale : rt
-		desc : control policy updates to the PT
-		providedBy : safe_adaptation/policy_optimization
-		sameAs : controller_control
-	commands
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/ProvidedThing/AutomaticEnabledThing/ConnectionComponent/Action/DescribedThing/ContainedElement/Thing/ConceptInstance
+	notifications
+		type : ConnectionComponent/Action/Thing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/ProvidedThing/AutomaticEnabledThing/NamedIndividual/ConceptInstance
+		sameAs : notifications
 		hasTimeScale : rt
 		IsAutomatic : true
-		sameAs : commands
 Data transmitted :
 	imis_report
-		type : NamedIndividual/Component/DataTransmitted/ImplementationThing/TimeScaleThing/AutomaticEnabledThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
-		hasTimeScale : rt
-		producedFrom : imis
-		IsAutomatic : true
-		asData : temp_readings_streaming/controller_state
+		type : ConnectionComponent/Thing/DataTransmitted/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/AutomaticEnabledThing/NamedIndividual/ConceptInstance
 		sameAs : imis_report
-	slf_report
-		type : NamedIndividual/Component/DataTransmitted/ImplementationThing/TimeScaleThing/AutomaticEnabledThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
 		hasTimeScale : rt
-		producedFrom : meteo_station
 		IsAutomatic : true
+		producedFrom : imis
+		asData : snow_profile_model
+	slf_report
+		type : ConnectionComponent/Thing/DataTransmitted/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/AutomaticEnabledThing/NamedIndividual/ConceptInstance
 		sameAs : slf_report
-	swissalti3d_raster
-		type : NamedIndividual/Component/DataTransmitted/ImplementationThing/TimeScaleThing/AutomaticEnabledThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
-		hasTimeScale : immutable
-		producedFrom : lidar
-		IsAutomatic : false
-		sameAs : swissalti3d_raster
-Sensors :
-	imis
-		type : NamedIndividual/Component/SensingComponent/ImplementationThing/TimeScaleThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
 		hasTimeScale : rt
-		producedData : imis_report
-		sameAs : imis
-	lidar
-		type : NamedIndividual/Component/SensingComponent/ImplementationThing/TimeScaleThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
+		IsAutomatic : true
+		producedFrom : meteo_station
+	swissalti3d_raster
+		type : ConnectionComponent/Thing/DataTransmitted/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/AutomaticEnabledThing/NamedIndividual/ConceptInstance
+		sameAs : swissalti3d_raster
 		hasTimeScale : immutable
-		producedData : swissalti3d_raster
-		sameAs : lidar
+		IsAutomatic : false
+		producedFrom : lidar
+Sensors :
 	meteo_station
-		type : NamedIndividual/Component/SensingComponent/ImplementationThing/TimeScaleThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
+		type : ConnectionComponent/Thing/SensingComponent/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
+		sameAs : meteo_station
 		hasTimeScale : rt
 		producedData : slf_report
-		sameAs : meteo_station
+	lidar
+		type : ConnectionComponent/Thing/SensingComponent/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
+		sameAs : lidar
+		hasTimeScale : immutable
+		producedData : swissalti3d_raster
+	imis
+		type : ConnectionComponent/Thing/SensingComponent/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
+		sameAs : imis
+		hasTimeScale : rt
+		producedData : imis_report
 System :
 	avalanche_trigger_controller
-		type : NamedIndividual/Component/ActingComponent/ImplementationThing/TimeScaleThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
+		type : ActingComponent/ConnectionComponent/Thing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
+		sameAs : avalanche_trigger_controller
 		desc : Controls the avalanche triggers grid
 		isContainedIn : incubator
-		sameAs : avalanche_trigger_controller
 	notification_sender
-		type : NamedIndividual/Component/ActingComponent/ImplementationThing/TimeScaleThing/ConnectionComponent/DescribedThing/ContainedElement/Thing/ConceptInstance
+		type : ActingComponent/ConnectionComponent/Thing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
+		sameAs : notification_sender
 		desc : Controls sending of notifications to users
 		isContainedIn : incubator
-		sameAs : notification_sender
 System environnement :
-	activity
-		type : NamedIndividual/Component/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		desc : Skiers and other human-beings on site
-		isContainedIn : mountain
-		sameAs : activity
-	infrastructures
-		type : NamedIndividual/Component/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		desc : Human-made structures
-		isContainedIn : mountain
-		sameAs : infrastructures
 	meteo
-		type : NamedIndividual/Component/ImplementationThing/DescribedThing/ContainedElement/Thing/ConceptInstance
+		type : Thing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
+		sameAs : meteo
 		desc : Weather on site
 		isContainedIn : mountain
-		sameAs : meteo
-	topology
-		type : NamedIndividual/Component/ImplementationThing/TimeScaleThing/DescribedThing/ContainedElement/Thing/ConceptInstance
-		hasTimeScale : immutable
-		desc : Topology of the mountain, using SwissAlti3D
+	activity
+		type : Thing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
+		sameAs : activity
+		desc : Skiers and other human-beings on site
 		isContainedIn : mountain
+	infrastructures
+		type : Thing/ContainedElement/ImplementationThing/Component/DescribedThing/NamedIndividual/ConceptInstance
+		sameAs : infrastructures
+		desc : Human-made structures
+		isContainedIn : mountain
+	topology
+		type : Thing/ContainedElement/ImplementationThing/Component/DescribedThing/TimeScaleThing/NamedIndividual/ConceptInstance
 		sameAs : topology
+		desc : Topology of the mountain, proxied using SwissAlti3D
+		isContainedIn : mountain
+		hasTimeScale : immutable
 Data :
-	temp_readings_streaming
-		type : NamedIndividual/Component/Data/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Thing/ConceptInstance
+	snow_profile_model
+		type : Thing/DTComponent/Data/FidelityThing/ContainedElement/ImplementationThing/Component/DescribedThing/Input/NamedIndividual/ConceptInstance
+		sameAs : snow_profile_model
+		inputTo : alpine3d
 		fromData : imis_report
-		inputTo : optimization_algs/dashboard_enabler
-		sameAs : temp_readings_streaming
-	temp_readings_historical
-		type : NamedIndividual/Component/Data/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Thing/ConceptInstance
-		inputTo : simulator
-		sameAs : temp_readings_historical
-	controller_state
-		type : NamedIndividual/Component/Data/DTComponent/FidelityThing/ImplementationThing/Input/DescribedThing/ContainedElement/Thing/ConceptInstance
-		fromData : imis_report
-		sameAs : controller_state
 Rabbit exchange :
 
 Rabbit route :

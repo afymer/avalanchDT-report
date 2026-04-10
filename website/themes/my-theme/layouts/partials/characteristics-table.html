@@ -17,7 +17,7 @@
         <tr>
 			<td class="characteristic-id">C<sub>3</sub></td>
             <td>Physical sensing components</td>
-            <td>imis<br>lidar<br>meteo_station</td>
+            <td>meteo_station<br>lidar<br>imis</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>4</sub></td>
@@ -27,86 +27,86 @@
         <tr>
 			<td class="characteristic-id">C<sub>5</sub></td>
             <td>Virtual-to-physical interaction</td>
-            <td>The DT sends notifications to users.</td>
+            <td>The DT sends notifications to emergencies services and users.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>6</sub></td>
             <td>DT services</td>
-            <td>safe_adaptation<br>real_time_viz_service<br>policy_optimization<br>avalanche_danger_level_estimator<br>avalanche_simulation<br>avalanche_prediction_service</td>
+            <td>real_time_viz_service<br>avalanche_danger_level_estimator<br>avalanche_simulation<br>avalanche_prediction_service</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>7</sub></td>
             <td>Twinning time-scale</td>
-            <td>Real-time<br>Immutable<br>Slower than real-time<br>The DT-to-PT synchronization occurs every time the PT sends a message to the DT (on a periodic basis).<br>Faster than real-time</td>
+            <td>Slower than real-time<br>The DT-to-PT occurs at the timescale of days, as the PT sends weather and snow updates to the DT.<br>Faster than real-time<br>Real-time<br>Immutable</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>8</sub></td>
             <td>Multiplicities</td>
-            <td>The current implementation has no multiplicities, however, it is possible to deploy multiple DTs for the same PT.</td>
+            <td>The current implementation has no multiplicities, however, it is possible to deploy for free multiple DTs for multiple mountains.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>9</sub></td>
             <td>Life-cycle stages</td>
-            <td>The DT supports the design and the service phases. In the service phase, it supports creating, executing, saving, analyzing, evolving, and terminating.</td>
+            <td>The DT only supports the service phase. In the service phase, it supports executing and analyzing.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>10</sub></td>
             <td>DT models and data</td>
-            <td>Model:<br>pt_model<br>ANN_state_estimation_model<br>ANN_model<br>four_para_model<br>two_para_model<br>controller_model<br>env_model<br>pt_and_env_model<br><br>Data:<br>temp_readings_streaming<br>temp_readings_historical<br>controller_state</td>
+            <td>Model:<br>pt_model<br>NN_model<br>alpine3d_interpolation_model<br>env_model<br>pt_and_env_model<br><br>Data:<br>snow_profile_model</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>11</sub></td>
             <td>Tooling and enablers</td>
-            <td>simulator<br>state_estimator<br>anomaly_detector_enabler<br>optimization_algs<br>dashboard_enabler<br>godot<br>docker<br>influx_db<br>rabbit_mq</td>
+            <td>simulator<br>docker_volume_sharing<br>godot<br>alpine3d<br>NNEstimator<br>rabbit_mq</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>12</sub></td>
             <td>DT constellation</td>
-            <td>The orchestration of the system-as-a-whole is carried out by micro-services. These microservices set up the multiple components from configuration files, including the models and data, tools and enablers, services, and physical-to-virtual and virtual-to-physical interaction. It is possible to leave aside some of the micro-services when initializing the DT for testing purposes..</td>
+            <td>The orchestration of the system-as-a-whole is carried out by (micro-)services. These services operate on their own depending on the availability of data. They include weather simulation, prediction, and enablers. Yet it is not possible to leave aside some of the micro-services.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>13</sub></td>
             <td>Twinning process and DT evolution</td>
-            <td>The DT was engineered based on a joint engineering approach. For the evolution, 10 milestones have been defined: identifying the physics for the PT, building the plant models with, characterizing the heating power, building the first physical prototype, experimentally refining the parameters for the plant model, creating the controller model, deploying the controller code into the physical controller, deploying the visualization service, providing services for state estimation and anomaly detection, and providing the service for optimizing the control policy.</td>
+            <td>The DT was engineered based on flexible requirements, with an MVP consisting of avalanche danger prediction.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>14</sub></td>
             <td>Fidelity and validity considerations</td>
-            <td>The models have been calibrated against experimental data and the predictive accuracy of the best model is within 2°C. The models have been validated in a controlled environment.</td>
+            <td>The DT is yet to be validated against historical data for accuracy.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>15</sub></td>
             <td>DT technical connection</td>
-            <td>The PT-to-DT connection is done over Wi-Fi on a laptop using RabbitMQ.</td>
+            <td>The PT-to-DT connection is done over Ethernet using RESTful APIs</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>16</sub></td>
             <td>DT hosting/deployment</td>
-            <td>The Incubator DT is deployed locally on a LAN.</td>
+            <td>The Incubator DT is deployed on a virtual network, which can be deployed on a VPS.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>17</sub></td>
             <td>Insights and decision making</td>
-            <td>dashboard_viz<br>real_time_viz: 3D visualization of the current state<br>what_if_sim_results:  what-if analysis for future behavior under different controller configurations<br>avalanche_3d_simulation: anomaly detection<br>future_avalanche_risk_estimation: state estimation of the heater<br>avalanche_risk_map: avalanche_risk_map visualization of the current state and historical data<br>controller_control: control policy updates to the PT<br>commands</td>
+            <td>real_time_viz: 3D visualization of the Alps<br>godot_viz<br>what_if_sim_results:  what-if analysis of potential avalanches in risky zones<br>avalanche_3d_simulation: simulation of the impacts of an avalanche in a specific area<br>future_avalanche_risk_estimation: estimation of the avalanche risk<br>avalanche_risk_map: avalanche_risk_map visualization of the current state and historical data<br>notifications</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>18</sub></td>
             <td>Horizontal integration</td>
-            <td>There is horizontal integration with the micro-services of the Incubator DT. The DT is able to exchange information with other information systems over RabbitMQ.</td>
+            <td>There is horizontal integration with the services of the Swiss Alps DT. The DT is able to exchange information with other information systems via volume sharing and message passing using RabbitMQ.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>19</sub></td>
             <td>Data ownership and privacy</td>
-            <td>Datasets have been provided online to the public. No privacy-related data are stored.</td>
+            <td>Datasets are the exclusive property of SLF and other governmental oranisations. No privacy-related data is stored.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>20</sub></td>
             <td>Standardization</td>
-            <td>Communication is carried out using AMQP standard via RabbitMQ. Behavioral models have been produced following the FMI standard version 2.</td>
+            <td>Communication is carried out using AMQP standard via RabbitMQ.</td>
 		</tr>
         <tr>
 			<td class="characteristic-id">C<sub>21</sub></td>
             <td>Security and safety considerations</td>
-            <td>Communication can be TLS encrypted through the RabbitMQ broker. The physical controller counts with a safety consideration that turns off system if the temperature read is above 60°C or if the network connection is unstable.</td>
+            <td>Communication can be TLS encrypted through the RabbitMQ broker. All actions performed by the DT need human action for now.</td>
 		</tr>
     </table>
